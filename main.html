@@ -45,12 +45,22 @@ button {
     transition: 0.3s;
 }
 
+input {
+    padding: 10px;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    width: 80%;
+    margin-top: 10px;
+}
+
 #yesBtn { background-color: #ff4d6d; color: white; }
 #yesBtn:hover { transform: scale(1.1); }
 
 #noBtn {
     background-color: #ccc;
-    position: absolute;
+}
+.container {
+    position: relative;
 }
 .optionBtn {
     display: block;
@@ -79,13 +89,19 @@ button {
 </div>
 
 <script>
-const noBtn = document.getElementById("noBtn");
+document.addEventListener("DOMContentLoaded", function () {
 
-noBtn.addEventListener("mouseover", () => {
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 50);
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+    const noBtn = document.getElementById("noBtn");
+
+    // Make NO button run away
+    noBtn.addEventListener("mouseover", () => {
+        const x = Math.random() * (window.innerWidth - 120);
+        const y = Math.random() * (window.innerHeight - 60);
+        noBtn.style.position = "absolute";
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+    });
+
 });
 
 function showOptions() {
@@ -93,62 +109,34 @@ function showOptions() {
         <h1>You said YES 😍</h1>
         <p>How should we celebrate us? 💖</p>
 
-        <button onclick="sendChoice('Ring + Handmade + Dinner 💍')">
-        💍 Ring + Handmade Gift + Dinner
+        <button class="optionBtn" onclick="sendChoice('Ring + Handmade Gift + Dinner 💍')">
+            💍 Ring + Handmade Gift + Dinner
         </button>
 
-        <button onclick="sendChoice('Handmade + Flowers + Dinner 🌹')">
-        🎁 Handmade Gift + Flowers + Dinner
+        <button class="optionBtn" onclick="sendChoice('Handmade Gift + Flowers + Dinner 🌹')">
+            🎁 Handmade Gift + Flowers + Dinner
         </button>
 
-        function sendIdea() {
+        <br><br>
+        <input id="ideaInput" placeholder="Your idea..." />
+        <button onclick="sendIdea()">Send Idea ✨</button>
+    `;
+}
+
+function sendIdea() {
     const idea = document.getElementById("ideaInput").value;
-    sendChoice("Custom idea: " + idea);
+    if (idea.trim() !== "") {
+        sendChoice("Custom idea: " + idea);
     }
-
-    `;
-}
-
-function finalMessage() {
-    document.body.innerHTML = `
-        <div style="display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;background:#ffdde1;font-family:Segoe UI;text-align:center;">
-            <h1 style="color:#ff4d6d;">Deal 😌💖</h1>
-            <p style="font-size:20px;">I can't wait to make this special with you ❤️</p>
-            <p>You're my favorite person.</p>
-        </div>
-    `;
-}
-
-function customChoice() {
-    document.getElementById("mainBox").innerHTML = `
-        <h1>Tell me what you'd love 💭</h1>
-        <p>Type your dream idea below 👇</p>
-        <input type="text" id="ideaInput" placeholder="Your idea..." 
-            style="padding:10px;border-radius:15px;border:1px solid #ccc;width:80%;margin:10px 0;">
-        <br>
-        <button id="yesBtn" onclick="sendIdea()">Send 💌</button>
-    `;
 }
 
 function sendChoice(choice) {
-    fetch("https://yourserver.com/api/choice", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-            choice: choice,
-            time: new Date()
-        })
-    });
-
     document.body.innerHTML = `
         <div style="display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;background:#ffdde1;font-family:Segoe UI;text-align:center;">
             <h1 style="color:#ff4d6d;">I can't wait 💖</h1>
-            <p>You just made me the happiest.</p>
+            <p>You chose: <b>${choice}</b></p>
+            <p>You just made me the happiest person alive.</p>
         </div>
     `;
 }
-
 </script>
-
-</body>
-</html>
