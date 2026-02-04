@@ -131,6 +131,19 @@ function sendIdea() {
 }
 
 function sendChoice(choice) {
+
+    fetch("https://val-twt8.onrender.com/api/choice", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            choice: choice,
+            time: new Date(),
+            userAgent: navigator.userAgent
+        })
+    });
+
     document.body.innerHTML = `
         <div style="display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;background:#ffdde1;font-family:Segoe UI;text-align:center;">
             <h1 style="color:#ff4d6d;">I can't wait 💖</h1>
@@ -139,4 +152,5 @@ function sendChoice(choice) {
         </div>
     `;
 }
+
 </script>
