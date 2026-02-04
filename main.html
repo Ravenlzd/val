@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>For You ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    text-align: center;
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    max-width: 420px;
+}
+
+h1 { color: #ff4d6d; }
+p { color: #555; }
+
+img {
+    width: 200px;
+    border-radius: 15px;
+    margin: 15px 0;
+}
+
+button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px;
+    transition: 0.3s;
+}
+
+#yesBtn { background-color: #ff4d6d; color: white; }
+#yesBtn:hover { transform: scale(1.1); }
+
+#noBtn {
+    background-color: #ccc;
+    position: absolute;
+}
+.optionBtn {
+    display: block;
+    width: 100%;
+    background: #ffe5ec;
+    color: #333;
+}
+.optionBtn:hover {
+    background: #ffccd5;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="mainBox">
+    <h1>Hey My Beautiful Girl ❤️</h1>
+    <p>I have an important question for you...</p>
+
+    <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="Cute" />
+
+    <h2>Will you be my Valentine? 💌</h2>
+
+    <button id="yesBtn" onclick="showOptions()">YES 💖</button>
+    <button id="noBtn">No 🙈</button>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
+
+function showOptions() {
+    document.getElementById("mainBox").innerHTML = `
+        <h1>You said YES 😍</h1>
+        <p>How should we celebrate us? 💖</p>
+
+        <button onclick="sendChoice('Ring + Handmade + Dinner 💍')">
+        💍 Ring + Handmade Gift + Dinner
+        </button>
+
+        <button onclick="sendChoice('Handmade + Flowers + Dinner 🌹')">
+        🎁 Handmade Gift + Flowers + Dinner
+        </button>
+
+        function sendIdea() {
+    const idea = document.getElementById("ideaInput").value;
+    sendChoice("Custom idea: " + idea);
+    }
+
+    `;
+}
+
+function finalMessage() {
+    document.body.innerHTML = `
+        <div style="display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;background:#ffdde1;font-family:Segoe UI;text-align:center;">
+            <h1 style="color:#ff4d6d;">Deal 😌💖</h1>
+            <p style="font-size:20px;">I can't wait to make this special with you ❤️</p>
+            <p>You're my favorite person.</p>
+        </div>
+    `;
+}
+
+function customChoice() {
+    document.getElementById("mainBox").innerHTML = `
+        <h1>Tell me what you'd love 💭</h1>
+        <p>Type your dream idea below 👇</p>
+        <input type="text" id="ideaInput" placeholder="Your idea..." 
+            style="padding:10px;border-radius:15px;border:1px solid #ccc;width:80%;margin:10px 0;">
+        <br>
+        <button id="yesBtn" onclick="sendIdea()">Send 💌</button>
+    `;
+}
+
+function sendChoice(choice) {
+    fetch("https://yourserver.com/api/choice", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+            choice: choice,
+            time: new Date()
+        })
+    });
+
+    document.body.innerHTML = `
+        <div style="display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;background:#ffdde1;font-family:Segoe UI;text-align:center;">
+            <h1 style="color:#ff4d6d;">I can't wait 💖</h1>
+            <p>You just made me the happiest.</p>
+        </div>
+    `;
+}
+
+</script>
+
+</body>
+</html>
