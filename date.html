@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Pick Our Date 💘</title>
+<style>
+body{
+    margin:0;
+    font-family:Segoe UI;
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+.box{
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+button{
+    padding:12px 20px;
+    margin:8px;
+    border:none;
+    border-radius:20px;
+    cursor:pointer;
+    background:#ffe5ec;
+}
+button:hover{background:#ffccd5;}
+</style>
+</head>
+<body>
+
+<div class="box">
+    <h1>Choose our special day 🥰</h1>
+    <p>Which day works best for you?</p>
+
+    <button onclick="sendDate('February 8')">Feb 8</button>
+    <button onclick="sendDate('February 11 (Anniversary)')">Feb 11</button>
+    <button onclick="sendDate('February 14 (Valentine’s Day)')">Feb 14</button>
+    <button onclick="customDate()">Another Day</button>
+</div>
+
+<script>
+function sendDate(date) {
+    fetch("https://val-twt8.onrender.com/api/choice", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            type:"date_choice",
+            date:date,
+            time:new Date()
+        })
+    });
+
+    document.body.innerHTML = `
+        <div style="display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;background:#ffdde1;font-family:Segoe UI;text-align:center;">
+            <h1>It's a date! 💖</h1>
+            <p>${date} it is 🥰</p>
+            <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" style="width:220px;border-radius:15px;margin-top:15px;">
+        </div>
+    `;
+}
+
+function customDate(){
+    document.querySelector(".box").innerHTML = `
+        <h1>Pick your dream day ✨</h1>
+        <input type="date" id="dateInput" style="padding:10px;border-radius:10px;">
+        <br><br>
+        <button onclick="sendDate(document.getElementById('dateInput').value)">Confirm 💌</button>
+    `;
+}
+</script>
+
+</body>
+</html>

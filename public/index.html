@@ -134,16 +134,18 @@ function sendChoice(choice) {
 
     fetch("https://val-twt8.onrender.com/api/choice", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+            type: "gift_choice",
             choice: choice,
-            time: new Date(),
-            userAgent: navigator.userAgent
+            time: new Date()
         })
     });
 
+    // Go to date picker page
+    window.location.href = "/date.html";
+}
+{
     document.body.innerHTML = `
         <div style="
             display:flex;
